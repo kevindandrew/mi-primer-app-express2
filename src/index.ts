@@ -1,6 +1,7 @@
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import libroRouter from "./routes/librosRoutes.ts";
+import usuariosRouter from "./routes/usuariosRoutes.ts";
 //INICIALIZAR LA APLICACION DE EXPRESS
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,7 @@ function apiKeyValidator(req: Request, res: Response, next: NextFunction) {
 }
 
 app.use("/", libroRouter);
+app.use("/", usuariosRouter);
 
 app.listen(PORT, function () {
   console.log(`Servidor corriendo en: http://localhost:${PORT}`);
