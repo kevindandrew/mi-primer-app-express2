@@ -31,9 +31,7 @@ function apiKeyValidator(req: Request, res: Response, next: NextFunction) {
   }
   next();
 }
-// #swagger.tags = ['Libros']
 app.use("/", libroRouter);
-// #swagger.tags = ['usuarios']
 app.use("/", usuariosRouter);
 
 app.listen(PORT, function () {
