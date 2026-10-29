@@ -1,0 +1,377 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API DE LA BIBLIOTECA GENERAL",
+    "description": "Esta api tiene la informacion de los libros de la bilbioteca general de la carrera de informatica",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-api-key",
+      "description": "Introduce tu API Key para acceder a los endpoints protegidos (Ej: 123456789)"
+    }
+  },
+  "paths": {
+    "/api/libros": {
+      "get": {
+        "tags": [
+          "Libros"
+        ],
+        "description": "Endpoint para obtener todos los libros registrados",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Libros"
+        ],
+        "description": "Endpoint para crear un libro nuevo",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "nuevoLibro",
+            "in": "body",
+            "description": "Información del libro a crear",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "autor": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "paginas": {
+                  "type": "number",
+                  "example": 1967
+                },
+                "disponible": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/libros/{id}": {
+      "get": {
+        "tags": [
+          "Libros"
+        ],
+        "description": "Endpoint para obtener un libro en especifico por su ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID de postgresql o identificador único del libro",
+            "example": "12438"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Libros"
+        ],
+        "description": "Endpoint para actualizar el registro de un libro existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "example": "any"
+                },
+                "autor": {
+                  "example": "any"
+                },
+                "paginas": {
+                  "example": "any"
+                },
+                "disponible": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "214": {
+            "description": ""
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Libros"
+        ],
+        "description": "Endpoint para eliminar de manera fisica un registro x su id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/libros/soft/{id}": {
+      "delete": {
+        "tags": [
+          "Libros"
+        ],
+        "description": "Endpoint para eliminar de manera logica (soft delete) un registro",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/estudiantes": {
+      "get": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "description": "Endpoint para visualizar a todos los estudiantes",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "description": "Endpoint para crear un estudiante",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "example": "any"
+                },
+                "apPaterno": {
+                  "example": "any"
+                },
+                "celular": {
+                  "example": "any"
+                },
+                "activo": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/estudiantes/{id}": {
+      "get": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "description": "Endpoint para ver un estudiante",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario encontrado exitosamente"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "el usuario no fue encontrado"
+          }
+        }
+      }
+    }
+  }
+}

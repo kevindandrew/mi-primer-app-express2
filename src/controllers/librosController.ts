@@ -2,6 +2,13 @@ import type { Response, Request } from "express";
 import { type Libros, biblioteca } from "../data/libros.ts";
 
 export function traerTodosLosLibros(req: Request, res: Response) {
+  /* 
+    #swagger.tags = ['Libros']
+    #swagger.description = 'Endpoint para obtener todos los libros registrados'
+    #swagger.security = [{
+      "ApiKeyAuth": []
+    }]
+  */
   res.status(200).json({
     ok: true,
     mensaje: "Lista de todos los libros q tenemos disponibles",
@@ -10,6 +17,18 @@ export function traerTodosLosLibros(req: Request, res: Response) {
 }
 
 export function traerUnLibro(req: Request, res: Response) {
+  /* #swagger.tags = ['Libros'] 
+    #swagger.description = 'Endpoint para obtener un libro en especifico por su ID'
+    #swagger.parameters['id'] = {
+      description: 'ID de postgresql o identificador único del libro',
+      type: 'string',
+      required: true,
+      example: '12438'
+    }
+      #swagger.security = [{
+      "ApiKeyAuth": []
+    }]
+  */
   let idBuscando = Number(req.params.id);
   let libroEncontrado = biblioteca.find(
     (librito: Libros) => librito.id === idBuscando,
@@ -29,6 +48,23 @@ export function traerUnLibro(req: Request, res: Response) {
 }
 
 export function crearLibroNuevo(req: Request, res: Response) {
+  /* #swagger.tags = ['Libros'] 
+    #swagger.description = 'Endpoint para crear un libro nuevo'
+    #swagger.parameters['nuevoLibro'] = {
+      in: 'body',
+      description: 'Información del libro a crear',
+      required: true,
+      schema: {
+        titulo: "string",
+        autor: "string",
+        paginas: 1967,
+        disponible: true
+      }
+    }
+      #swagger.security = [{
+      "ApiKeyAuth": []
+    }]
+  */
   const { titulo, autor, paginas, disponible } = req.body;
   if (!titulo || !autor || !paginas || !disponible) {
     return res.status(400).json({
@@ -52,6 +88,12 @@ export function crearLibroNuevo(req: Request, res: Response) {
 }
 
 export function actualizarLibro(req: Request, res: Response) {
+  /* #swagger.tags = ['Libros'] 
+  #swagger.description = 'Endpoint para actualizar el registro de un libro existente'
+
+  #swagger.security = [{
+      "ApiKeyAuth": []
+    }]*/
   let idBuscando = Number(req.params.id);
   let indiceEncontrado = biblioteca.findIndex(
     (librito: Libros) => librito.id === idBuscando,
@@ -84,6 +126,12 @@ export function actualizarLibro(req: Request, res: Response) {
 }
 
 export function eliminarLibroHard(req: Request, res: Response) {
+  /* #swagger.tags = ['Libros'] 
+  #swagger.description = 'Endpoint para eliminar de manera fisica un registro x su id'
+  #swagger.security = [{
+      "ApiKeyAuth": []
+    }]
+  */
   let idBuscando = Number(req.params.id);
   let indiceEncontrado = biblioteca.findIndex(
     (librito: Libros) => librito.id === idBuscando,
@@ -104,6 +152,11 @@ export function eliminarLibroHard(req: Request, res: Response) {
 }
 
 export function eliminarLibroSoft(req: Request, res: Response) {
+  /* #swagger.tags = ['Libros'] 
+  #swagger.description = 'Endpoint para eliminar de manera logica (soft delete) un registro'
+  #swagger.security = [{
+      "ApiKeyAuth": []
+    }]*/
   let idBuscando = Number(req.params.id);
   let indiceEncontrado = biblioteca.findIndex(
     (librito: Libros) => librito.id === idBuscando,

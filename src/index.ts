@@ -2,11 +2,21 @@ import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import libroRouter from "./routes/librosRoutes.ts";
 import usuariosRouter from "./routes/usuariosRoutes.ts";
+import swaggerUi from "swagger-ui-express";
+import fs from "fs";
+import path from "path";
 //INICIALIZAR LA APLICACION DE EXPRESS
 const app = express();
 const PORT = 3000;
 // MIDDLEWARE OBLIGATORIO PARA JSON
+const swaggerDocument = JSON.parse(
+  fs.readFileSync(
+    path.join(import.meta.dirname, "./swagger-output.json"),
+    "utf-8",
+  ),
+);
 app.use(express.json());
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(apiKeyValidator); // de manera global
 /* creacion del custom middleware */
 function apiKeyValidator(req: Request, res: Response, next: NextFunction) {
@@ -21,8 +31,9 @@ function apiKeyValidator(req: Request, res: Response, next: NextFunction) {
   }
   next();
 }
-
+// #swagger.tags = ['Libros']
 app.use("/", libroRouter);
+// #swagger.tags = ['usuarios']
 app.use("/", usuariosRouter);
 
 app.listen(PORT, function () {
