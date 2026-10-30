@@ -5,6 +5,8 @@ import usuariosRouter from "./routes/usuariosRoutes.ts";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 import path from "path";
+import {type CorsOptions} from "cors";
+import cors from "cors";
 //INICIALIZAR LA APLICACION DE EXPRESS
 const app = express();
 const PORT = 3000;
@@ -15,6 +17,20 @@ const swaggerDocument = JSON.parse(
     "utf-8",
   ),
 );
+//app.use(cors());//cualquiera q tenga mi api key puede acceder a mi api
+const allowedOrigins=["http://localhost:5173","https:kevin.com","https://miTrabajito.com"];//solo estos dominios pueden acceder a mi api
+const corsOptions: CorsOptions = {
+  origin:(origin, callback) => {
+   if(!origin || allowedOrigins.indexOf(origin) !== -1){
+     callback(null, true);
+   } else {
+     callback(new Error("Origen no permitido por CORS"));
+   }
+  }
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(apiKeyValidator); // de manera global
