@@ -7,9 +7,11 @@ import fs from "fs";
 import path from "path";
 import {type CorsOptions} from "cors";
 import cors from "cors";
+import dotenv from "dotenv";
 //INICIALIZAR LA APLICACION DE EXPRESS
 const app = express();
-const PORT = 3000;
+dotenv.config();
+const PORT = process.env.PORT || 3000;
 // MIDDLEWARE OBLIGATORIO PARA JSON
 const swaggerDocument = JSON.parse(
   fs.readFileSync(
@@ -38,7 +40,7 @@ app.use(apiKeyValidator); // de manera global
 function apiKeyValidator(req: Request, res: Response, next: NextFunction) {
   const apiKey = req.headers[`x-api-key`];
   /* verificar si la api key es correcta o si existe */
-  if (!apiKey || apiKey !== "funval-2026-10") {
+  if (!apiKey || apiKey !== process.env.API_KEY) {
     res.status(401).json({
       ok: false,
       mensaje: "ACCESO NO AUTORIZADO!!!",
